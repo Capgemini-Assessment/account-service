@@ -1,5 +1,6 @@
 package org.capgemini.blue_harvest.accountservice.dao.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.capgemini.blue_harvest.accountservice.dao.CustomerDao;
@@ -17,6 +18,11 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public Optional<Customer> getCustomerById(long id) {
 		return repository.findById(id);
+	}
+
+	@Override
+	public List<Customer> getAllCustomers() {
+		return repository.findAll();
 	}
 
 }

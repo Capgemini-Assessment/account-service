@@ -1,40 +1,33 @@
-package org.capgemini.blue_harvest.accountservice.entity;
-import jakarta.persistence.*;
+package org.capgemini.blue_harvest.accountservice.model;
+
 import java.time.LocalDateTime;
-import java.util.List;
-@Entity
-@Table(name = "customers")
+
+import jakarta.persistence.Column;
+
 public class Customer {
+	private int id;
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
     private String email;
 
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
+    
+    
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Account> accounts;
+	public Customer() {
+		super();
+	}
 
-    public Customer() {}
-
-	public Customer(int id, String firstName, String lastName, String email, LocalDateTime createdAt,
-			List<Account> accounts) {
+	public Customer(int id, String firstName, String lastName, String email, LocalDateTime createdAt) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.createdAt = createdAt;
-		this.accounts = accounts;
 	}
 
 	public int getId() {
@@ -75,14 +68,6 @@ public class Customer {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
-	}
-
-	public List<Account> getAccounts() {
-		return accounts;
-	}
-
-	public void setAccounts(List<Account> accounts) {
-		this.accounts = accounts;
 	}
     
     

@@ -1,7 +1,7 @@
 package org.capgemini.blue_harvest.accountservice.model;
 public class ResponseTemplate {
 	private String message;
-	private String code;
+	private Integer code;
 	private Object body;
 
     public ResponseTemplate() {
@@ -15,7 +15,7 @@ public class ResponseTemplate {
 	}
 
 
-	public ResponseTemplate(String message, String code, Object body) {
+	public ResponseTemplate(String message, Integer code, Object body) {
 		super();
 		this.message = message;
 		this.code = code;
@@ -30,11 +30,11 @@ public class ResponseTemplate {
 		this.message = message;
 	}
 
-	public String getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 

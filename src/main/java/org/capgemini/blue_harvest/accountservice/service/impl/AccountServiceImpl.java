@@ -2,7 +2,12 @@ package org.capgemini.blue_harvest.accountservice.service.impl;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.capgemini.blue_harvest.accountservice.constant.AccountConstant;
 import org.capgemini.blue_harvest.accountservice.dao.AccountDao;
@@ -27,23 +32,24 @@ import reactor.core.publisher.Mono;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-	@Autowired
-	private CustomerDao customerDao;
-	
-	@Autowired
-	private AccountDao accountDao;
-	
-	@Autowired
+    private static final Logger logger = Logger.getLogger(AccountServiceImpl.class.getName());
+
+    @Autowired
+    private CustomerDao customerDao;
+
+    @Autowired
+    private AccountDao accountDao;
+
+    @Autowired
     private WebClient.Builder webClientBuilder;
-	
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public org.capgemini.blue_harvest.accountservice.model.Account openCurrentAccount(AccountRequest accountRequest) {
+        logger.info(AccountConstant.LOG_RECEIVED_OPEN_ACCOUNT_REQUEST + accountRequest.getCustomerId());
 
-	
-	@Override
-	@Transactional
-	public org.capgemini.blue_harvest.accountservice.model.Account openCurrentAccount(AccountRequest accountRequest) {
         Customer customer = customerDao.getCustomerById(accountRequest.getCustomerId())
-                .orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + accountRequest.getCustomerId() + " not found"));
+                .orElseThrow(() -> new CustomerNotFoundException(AccountConstant.CUSTOMER_NOT_FOUND_MESSAGE + accountRequest.getCustomerId()));
 
         Account account = createAccountForCustomer(customer);
 
@@ -51,18 +57,25 @@ public class AccountServiceImpl implements AccountService {
             createInitialTransaction(account, accountRequest.getIntialCredit());
         }
 
+        logger.info(AccountConstant.LOG_ACCOUNT_OPENED_SUCCESS + accountRequest.getCustomerId());
         return new AccountServiceMapper().mapToModel(account);
     }
 
     private Account createAccountForCustomer(Customer customer) {
+        logger.info(AccountConstant.LOG_CREATING_ACCOUNT + customer.getId());
+
         Account account = new Account();
         account.setCustomer(customer);
         account.setCreatedAt(LocalDateTime.now());
         accountDao.save(account);
+
+        logger.info(AccountConstant.LOG_ACCOUNT_CREATED + account.getId() + " for customer ID: " + customer.getId());
         return account;
     }
 
     private void createInitialTransaction(Account account, double initialCredit) {
+        logger.info(AccountConstant.LOG_CREATING_TRANSACTION + account.getId());
+
         TransactionRequest transactionRequest = new TransactionRequest();
         transactionRequest.setAccountId(account.getId());
         transactionRequest.setAmount(initialCredit);
@@ -77,10 +90,28 @@ public class AccountServiceImpl implements AccountService {
                     .retrieve()
                     .bodyToMono(TransactionResponse.class)
                     .block();
+            logger.info(AccountConstant.LOG_TRANSACTION_CREATED + account.getId());
         } catch (WebClientResponseException e) {
-            // Replace with your logging framework's logger
-            System.err.println("Error creating transaction: " + e.getMessage());
+        	logger.log(Level.SEVERE,AccountConstant.TRANSACTION_CREATION_ERROR_MESSAGE  + e.getMessage());
+            throw new RuntimeException(AccountConstant.TRANSACTION_CREATION_ERROR_MESSAGE + e.getMessage(), e);
         }
     }
 
+    @Override
+    public List<org.capgemini.blue_harvest.accountservice.model.Account> getAccountsByCustomerId(Long customerId) {
+        logger.info(AccountConstant.LOG_FETCHING_ACCOUNTS + customerId);
+
+        Customer customer = customerDao.getCustomerById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException(AccountConstant.CUSTOMER_NOT_FOUND_MESSAGE + customerId));
+
+        List<Account> accounts = accountDao.getAccountsByCustomerId(customer.getId());
+        AccountServiceMapper mapper = new AccountServiceMapper();
+
+        List<org.capgemini.blue_harvest.accountservice.model.Account> result = accounts.stream()
+                       .map(mapper::mapToModel)
+                       .collect(Collectors.toList());
+
+        logger.info(AccountConstant.LOG_ACCOUNTS_FETCHED + result.size() + " accounts for customer ID: " + customerId);
+        return result;
+    }
 }
