@@ -15,6 +15,7 @@ import org.capgemini.blue_harvest.accountservice.dao.CustomerDao;
 import org.capgemini.blue_harvest.accountservice.entity.Account;
 import org.capgemini.blue_harvest.accountservice.entity.Customer;
 import org.capgemini.blue_harvest.accountservice.exception.CustomerNotFoundException;
+import org.capgemini.blue_harvest.accountservice.exception.InvalidAmountException;
 import org.capgemini.blue_harvest.accountservice.mapper.AccountServiceMapper;
 import org.capgemini.blue_harvest.accountservice.model.AccountRequest;
 import org.capgemini.blue_harvest.accountservice.model.TransactionRequest;
@@ -52,6 +53,10 @@ public class AccountServiceImpl implements AccountService {
     public org.capgemini.blue_harvest.accountservice.model.Account openCurrentAccount(AccountRequest accountRequest) {
         logger.info(AccountConstant.LOG_RECEIVED_OPEN_ACCOUNT_REQUEST + accountRequest.getCustomerId());
 
+        if (accountRequest.getIntialCredit() < 0) {
+            throw new InvalidAmountException(AccountConstant.INITIAL_AMOUNT_ERROR_MESSAGE);
+        }
+        
         Customer customer = customerDao.getCustomerById(accountRequest.getCustomerId())
                 .orElseThrow(() -> new CustomerNotFoundException(AccountConstant.CUSTOMER_NOT_FOUND_MESSAGE + accountRequest.getCustomerId()));
 
@@ -102,7 +107,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<org.capgemini.blue_harvest.accountservice.model.Account> getAccountsByCustomerId(Long customerId) {
+    public List<org.capgemini.blue_harvest.accountservice.model.Account> getAccountsByCustomerId(int customerId) {
         logger.info(AccountConstant.LOG_FETCHING_ACCOUNTS + customerId);
 
         Customer customer = customerDao.getCustomerById(customerId)

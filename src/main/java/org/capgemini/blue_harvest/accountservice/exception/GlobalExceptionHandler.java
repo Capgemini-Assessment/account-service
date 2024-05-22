@@ -16,6 +16,12 @@ public class GlobalExceptionHandler {
                              .body(AccountConstant.CUSTOMER_NOT_FOUND_ERROR_MESSAGE + e.getMessage());
     }
 
+	@ExceptionHandler(InvalidAmountException.class)
+    public ResponseEntity<Object> handleInvalidAmountException(InvalidAmountException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(AccountConstant.INVALID_AMOUNT_ERROR_MESSAGE + e.getMessage());
+    }
+	
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleUnknownException(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

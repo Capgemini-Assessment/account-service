@@ -4,6 +4,8 @@ public class AccountConstant {
 
 	public static final String UNEXPECTED_ERROR_MESSAGE = "Unexpected Error: ";
     public static final String CUSTOMER_NOT_FOUND_ERROR_MESSAGE = "Customer not found: ";
+    public static final String INVALID_AMOUNT_ERROR_MESSAGE = "Invalid Amount: ";
+    public static final String INITIAL_AMOUNT_ERROR_MESSAGE = "Initial credit amount cannot be negative.";
     public static final String ACCOUNT_OPEN_SUCCESS_MESSAGE =  "Account opened successfully";
     public static final String CREDIT =  "Credit";
     public static final String LOG_ACCOUNT_OPEN_REQUEST = "Received request to open current account for customer ID: ";
