@@ -21,6 +21,7 @@ import org.capgemini.blue_harvest.accountservice.model.TransactionRequest;
 import org.capgemini.blue_harvest.accountservice.model.TransactionResponse;
 import org.capgemini.blue_harvest.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountDao accountDao;
+    
+    @Value("${transaction-service-url}")
+    private String transactionServiceURL;
 
     @Autowired
     private WebClient.Builder webClientBuilder;
@@ -85,7 +89,7 @@ public class AccountServiceImpl implements AccountService {
         try {
             TransactionResponse response = webClientBuilder.build()
                     .post()
-                    .uri(AccountConstant.TRANSACTION_SERVICE_URL)
+                    .uri(transactionServiceURL)
                     .body(Mono.just(transactionRequest), TransactionRequest.class)
                     .retrieve()
                     .bodyToMono(TransactionResponse.class)
