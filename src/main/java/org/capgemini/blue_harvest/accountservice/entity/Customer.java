@@ -25,6 +25,16 @@ public class Customer {
     private List<Account> accounts;
 
     public Customer() {}
+    
+    public Customer(int id, String firstName, String lastName, String email, LocalDateTime createdAt
+			) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.createdAt = createdAt;
+	}
 
 	public Customer(int id, String firstName, String lastName, String email, LocalDateTime createdAt,
 			List<Account> accounts) {

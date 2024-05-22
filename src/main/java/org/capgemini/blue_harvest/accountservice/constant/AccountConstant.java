@@ -6,7 +6,6 @@ public class AccountConstant {
     public static final String CUSTOMER_NOT_FOUND_ERROR_MESSAGE = "Customer not found: ";
     public static final String ACCOUNT_OPEN_SUCCESS_MESSAGE =  "Account opened successfully";
     public static final String CREDIT =  "Credit";
-    public static final String TRANSACTION_SERVICE_URL = "http://localhost:8081/api/v1/transaction";
     public static final String LOG_ACCOUNT_OPEN_REQUEST = "Received request to open current account for customer ID: ";
     public static final String LOG_ACCOUNT_OPEN_SUCCESS = "Successfully opened current account for customer ID: ";
     public static final String ACCOUNT_FETCH_SUCCESS_MESSAGE = "Accounts fetched successfully.";
