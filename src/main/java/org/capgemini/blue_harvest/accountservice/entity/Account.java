@@ -1,4 +1,5 @@
 package org.capgemini.blue_harvest.accountservice.entity;
+
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -7,17 +8,18 @@ import java.time.LocalDateTime;
 public class Account {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+	@Column(name = "created_at")
+	private LocalDateTime createdAt;
 
-    public Account() {}
+	public Account() {
+	}
 
 	public Account(int id, Customer customer, LocalDateTime createdAt) {
 		super();
@@ -48,6 +50,6 @@ public class Account {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
-	}   
-    
+	}
+
 }

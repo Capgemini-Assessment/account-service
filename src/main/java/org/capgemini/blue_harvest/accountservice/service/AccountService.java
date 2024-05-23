@@ -8,6 +8,6 @@ import org.capgemini.blue_harvest.accountservice.model.AccountRequest;
 public interface AccountService {
 	public Account openCurrentAccount(AccountRequest request);
 
-	public List<Account> getAccountsByCustomerId(Long customerId);
+	public List<Account> getAccountsByCustomerId(int customerId);
 
 }
