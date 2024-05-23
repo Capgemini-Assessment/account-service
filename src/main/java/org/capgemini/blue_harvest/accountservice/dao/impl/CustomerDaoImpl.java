@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerDaoImpl implements CustomerDao {
-	
+
 	@Autowired
 	CustomerRepository repository;
 
 	@Override
-	public Optional<Customer> getCustomerById(long id) {
+	public Optional<Customer> getCustomerById(int id) {
 		return repository.findById(id);
 	}
 

@@ -1,19 +1,18 @@
 package org.capgemini.blue_harvest.accountservice.model;
+
 public class ResponseTemplate {
 	private String message;
 	private Integer code;
 	private Object body;
 
-    public ResponseTemplate() {
-    }
+	public ResponseTemplate() {
+	}
 
-    
 	public ResponseTemplate(String message, Object body) {
 		super();
 		this.message = message;
 		this.body = body;
 	}
-
 
 	public ResponseTemplate(String message, Integer code, Object body) {
 		super();
@@ -46,6 +45,4 @@ public class ResponseTemplate {
 		this.body = body;
 	}
 
-    
 }
-

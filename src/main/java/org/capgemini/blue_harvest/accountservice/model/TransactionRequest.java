@@ -1,17 +1,17 @@
 package org.capgemini.blue_harvest.accountservice.model;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 
 public class TransactionRequest {
 	private int accountId;
-    private double amount;
-    private String type;
-    private LocalDateTime transactionDate;
-    
-    public TransactionRequest() {
-    }
+	private double amount;
+	private String type;
+	private LocalDateTime transactionDate;
 
-    public TransactionRequest(int accountId, double amount, String type, LocalDateTime transactionDate) {
+	public TransactionRequest() {
+	}
+
+	public TransactionRequest(int accountId, double amount, String type, LocalDateTime transactionDate) {
 		super();
 		this.accountId = accountId;
 		this.amount = amount;
@@ -27,28 +27,27 @@ public class TransactionRequest {
 		this.type = type;
 	}
 
-    public int getAccountId() {
-        return accountId;
-    }
+	public int getAccountId() {
+		return accountId;
+	}
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
 
-    public double getAmount() {
-        return amount;
-    }
+	public double getAmount() {
+		return amount;
+	}
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 
-    public LocalDateTime getTransactionDate() {
-        return transactionDate;
-    }
+	public LocalDateTime getTransactionDate() {
+		return transactionDate;
+	}
 
-    public void setTransactionDate(LocalDateTime transactionDate) {
-        this.transactionDate = transactionDate;
-    }
+	public void setTransactionDate(LocalDateTime transactionDate) {
+		this.transactionDate = transactionDate;
+	}
 }
-    

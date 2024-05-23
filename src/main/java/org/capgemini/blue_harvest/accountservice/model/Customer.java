@@ -2,20 +2,16 @@ package org.capgemini.blue_harvest.accountservice.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-
 public class Customer {
 	private int id;
 
-    private String firstName;
+	private String firstName;
 
-    private String lastName;
+	private String lastName;
 
-    private String email;
+	private String email;
 
-    private LocalDateTime createdAt;
-    
-    
+	private LocalDateTime createdAt;
 
 	public Customer() {
 		super();
@@ -69,6 +65,5 @@ public class Customer {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-    
-    
+
 }
